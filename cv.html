@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katelin Ten — CV</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:      #110118;
+      --bg2:     #1a0125;
+      --ink:     #FFFEE0;
+      --ink2:    #A60BF4;
+      --accent:  #F527E4;
+      --accent3: #27C8F5;
+      --muted:   #8a7a9a;
+      --rule:    rgba(166,11,244,0.18);
+      --mono:    'Space Mono', monospace;
+      --display: 'Inconsolata', monospace;
+      --nav-h:   44px;
+    }
+
+    html{ scroll-behavior: smooth; }
+    body{
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ══ NAV ══ */
+    #topnav{
+      position: sticky; top: 0; z-index: 200;
+      width: 100%; height: var(--nav-h);
+      background: var(--bg);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+    .nav-brand{
+      font-family: var(--display);
+      font-size: .9rem; font-weight: 700;
+      letter-spacing: .06em; color: var(--ink);
+      white-space: nowrap; text-decoration: none;
+    }
+    .nav-brand em{ color: var(--ink2); font-style: normal; }
+
+    #nav-links{ list-style: none; display: flex; align-items: center; }
+    #nav-links a{
+      display: block; padding: 0 13px;
+      height: var(--nav-h); line-height: var(--nav-h);
+      font-size: .5rem; letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,254,224,.5);
+      border-left: 1px solid rgba(255,255,255,.07);
+      transition: color .15s, background .15s; white-space: nowrap;
+    }
+    #nav-links a:hover, #nav-links a.active{ color: var(--ink); background: rgba(166,11,244,.15); }
+    #nav-links .nav-back{
+      color: var(--ink2) !important;
+      border: 1px solid rgba(166,11,244,.4) !important;
+      border-radius: 2px; margin-left: 10px;
+      padding: 0 12px !important; height: 28px !important; line-height: 28px !important;
+    }
+    #nav-links .nav-back:hover{ background: var(--ink2) !important; color: var(--bg) !important; }
+
+    #nav-toggle{
+      display: none; background: none;
+      border: 1.5px solid rgba(255,255,255,.22);
+      color: var(--ink); font-family: var(--mono);
+      font-size: .52rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: 5px 10px; cursor: pointer; border-radius: 2px;
+    }
+    #nav-drawer{
+      display: none; position: absolute;
+      top: var(--nav-h); left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1.5px solid rgba(166,11,244,.3);
+      z-index: 300; flex-direction: column;
+    }
+    #nav-drawer.open{ display: flex; }
+    #nav-drawer a{
+      display: block; padding: 13px 20px;
+      font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
+      text-decoration: none; color: rgba(255,254,224,.7);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    #nav-drawer a:hover{ color: var(--ink); background: rgba(166,11,244,.15); }
+
+    /* ══ MASTHEAD ══ */
+    .masthead{
+      border-bottom: 3px solid var(--ink2);
+      padding: 40px 40px 0;
+      position: relative; overflow: hidden;
+    }
+    .masthead::before{
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 0%, rgba(166,11,244,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .masthead-meta{
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 16px;
+      font-size: .58rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .masthead-name{
+      font-family: var(--display);
+      font-size: clamp(3.5rem, 9vw, 7.5rem);
+      font-weight: 900; line-height: .92;
+      letter-spacing: -.02em; text-transform: uppercase;
+      animation: fadeUp .7s ease both;
+    }
+    .masthead-name em{ font-style: italic; font-weight: 300; color: var(--ink2); }
+    .masthead-sub{
+      font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--muted); margin-top: 14px; padding-bottom: 18px;
+      animation: fadeUp .7s .12s ease both;
+    }
+    .masthead-rule{
+      display: flex; align-items: center; gap: .8rem;
+      padding: 7px 0; font-size: .58rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      white-space: nowrap;
+    }
+    .masthead-rule::before,.masthead-rule::after{
+      content: ''; flex: 1; height: 1px; background: var(--rule);
+    }
+
+    /* ══ MAIN ══ */
+    main{ max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+    section{ border-bottom: 1px solid var(--rule); padding: 36px 0; }
+
+    /* section label */
+    .slabel{
+      font-size: .55rem; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink2); margin-bottom: 20px;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .slabel::after{ content: ''; flex: 1; height: 1px; background: var(--ink2); opacity: .3; }
+
+    /* grid helpers */
+    .g2{ display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .g3{ display: grid; grid-template-columns: 2fr 1fr 1.4fr; gap: 0; }
+    .col{ padding: 0 28px 0 0; border-right: 1px solid var(--rule); }
+    .col:last-child{ border-right: none; padding-right: 0; }
+    .col+.col{ padding-left: 28px; }
+
+    h2{
+      font-family: var(--display);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700; line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    h2 em{ font-style: italic; color: var(--ink2); }
+
+    p{ font-size: .82rem; line-height: 1.85; color: rgba(255,254,224,.8); margin-bottom: 10px; }
+    p:last-child{ margin-bottom: 0; }
+
+    /* pull quote */
+    .pullquote{
+      border-left: 3px solid var(--ink2);
+      padding: .5rem 0 .5rem 1.1rem;
+      margin: 20px 0;
+    }
+    .pullquote p{
+      font-size: 1.05rem; font-style: italic;
+      line-height: 1.45; color: var(--ink);
+    }
+
+    /* tags */
+    .tag{
+      display: inline-block;
+      background: rgba(166,11,244,.15);
+      border: 1px solid rgba(166,11,244,.4);
+      color: var(--ink2); font-size: .5rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 2px;
+      margin: 2px 3px 2px 0;
+    }
+    .tag.c{ background: rgba(39,200,245,.1); border-color: rgba(39,200,245,.4); color: var(--accent3); }
+    .tag.a{ background: rgba(245,39,228,.1); border-color: rgba(245,39,228,.4); color: var(--accent); }
+
+    /* exp entries */
+    .entry{ padding: 16px 0; border-bottom: 1px solid var(--rule); }
+    .entry:last-child{ border-bottom: none; }
+    .entry-head{
+      display: flex; justify-content: space-between;
+      align-items: baseline; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .entry-org{
+      font-size: .55rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--ink2);
+    }
+    .entry-date{
+      font-size: .52rem; color: var(--muted);
+      white-space: nowrap; letter-spacing: .06em;
+    }
+    .entry-role{ font-size: .88rem; font-weight: 700; margin-bottom: 6px; }
+    .entry-bullets{ padding-left: 1rem; margin: 0; }
+    .entry-bullets li{
+      font-size: .75rem; line-height: 1.7;
+      color: rgba(255,254,224,.75); margin-bottom: 3px;
+    }
+
+    /* project grid */
+    .pgrid{
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--rule);
+      border: 1px solid var(--rule); margin-top: 12px;
+    }
+    .pcard{ background: var(--bg); padding: 14px 16px; }
+    .pcard h4{
+      font-family: var(--display);
+      font-size: .88rem; font-weight: 700; font-style: italic;
+      margin-bottom: 4px; line-height: 1.3;
+      color: var(--ink);
+    }
+    .pcard a{ color: var(--ink2); text-decoration: none; }
+    .pcard a:hover{ text-decoration: underline; }
+    .pcard p{ font-size: .7rem; color: var(--muted); margin: 0; line-height: 1.5; }
+
+    /* feature strip */
+    .feature{
+      background: var(--bg2);
+      border-top: 1px solid var(--ink2);
+      border-bottom: 1px solid var(--ink2);
+      padding: 28px 40px;
+      margin: 0 -40px;
+      position: relative; overflow: hidden;
+    }
+    .feature::after{
+      content: '✦';
+      position: absolute; right: 40px; top: 10px;
+      font-size: 8rem; color: rgba(166,11,244,.06);
+      line-height: 1; pointer-events: none;
+    }
+    .feature h2{ max-width: 55ch; }
+    .feature p{ color: var(--muted); max-width: 65ch; }
+
+    /* awards */
+    .award-list{ list-style: none; }
+    .award-list li{
+      display: flex; gap: .8rem; padding: 8px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: .8rem; align-items: baseline;
+    }
+    .award-list li:last-child{ border-bottom: none; }
+    .award-year{ font-size: .55rem; color: var(--ink2); flex-shrink: 0; }
+
+    /* courses */
+    .course{ padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: .8rem; }
+    .course:last-child{ border-bottom: none; }
+    .course-code{ font-size: .55rem; letter-spacing: .08em; color: var(--accent3); margin-bottom: 2px; }
+
+    /* contact */
+    .contact-row{ display: flex; gap: 3rem; flex-wrap: wrap; padding: 12px 0; }
+    .contact-item .clabel{
+      font-size: .52rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+    }
+    .contact-item a{
+      color: var(--ink); text-decoration: none;
+      font-size: .85rem; font-weight: 700;
+      border-bottom: 2px solid var(--ink2);
+    }
+    .contact-item a:hover{ color: var(--ink2); }
+    .contact-item span{ font-size: .85rem; font-weight: 700; }
+
+    /* footer */
+    footer{
+      background: var(--bg2);
+      border-top: 1px solid var(--rule);
+      padding: 14px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: .52rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    footer a{ color: var(--ink2); text-decoration: none; }
+
+    @keyframes fadeUp{
+      from{ opacity: 0; transform: translateY(16px); }
+      to  { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width: 800px){
+      .masthead, main{ padding-left: 20px; padding-right: 20px; }
+      .g2, .g3{ grid-template-columns: 1fr; }
+      .col{ border-right: none; padding-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 28px; margin-bottom: 28px; }
+      .col:last-child{ border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+      .pgrid{ grid-template-columns: 1fr 1fr; }
+      .feature{ margin: 0 -20px; padding: 24px 20px; }
+      footer{ padding: 14px 20px; flex-direction: column; gap: 6px; text-align: center; }
+      #nav-links{ display: none; }
+      #nav-toggle{ display: block; }
+    }
+    @media(max-width: 500px){
+      .pgrid{ grid-template-columns: 1fr; }
+      .entry-head{ flex-direction: column; gap: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav" role="navigation" aria-label="Main navigation">
+  <a href="portfolio-wheel.html" class="nav-brand">Katelin <em>Ten</em></a>
+
+  <ul id="nav-links" role="list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#honors">Honors</a></li>
+    <li><a href="mailto:Katelinten0@gmail.com">Contact ↗</a></li>
+    <li><a href="portfolio-wheel.html" class="nav-back">&#9711; Portfolio Wheel</a></li>
+  </ul>
+
+  <button id="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776; Menu</button>
+  <div id="nav-drawer" role="menu">
+    <a href="#about"      role="menuitem">About</a>
+    <a href="#experience" role="menuitem">Experience</a>
+    <a href="#projects"   role="menuitem">Projects</a>
+    <a href="#teaching"   role="menuitem">Teaching</a>
+    <a href="#honors"     role="menuitem">Honors</a>
+    <a href="mailto:Katelinten0@gmail.com" role="menuitem">Contact ↗</a>
+    <a href="portfolio-wheel.html" role="menuitem">&#9711; Portfolio Wheel</a>
+  </div>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-meta">
+    <span>Curriculum Vitae</span>
+    <span>Digital Humanities &middot; Arts &amp; Technology</span>
+    <span>New York, NY &mdash; 2026</span>
+  </div>
+  <div class="masthead-name">Kate<em>lin</em><br>Ten</div>
+  <div class="masthead-sub">Scholar &middot; Artist &middot; Designer &middot; Educator &middot; Maker</div>
+  <div class="masthead-rule">About &middot; Experience &middot; Projects &middot; Teaching &middot; Honors</div>
+</header>
+
+<main>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="g3">
+      <div class="col">
+        <div class="slabel">About</div>
+        <h2>Where <em>technology</em> meets lived experience</h2>
+        <p>I'm Katelin Ten &mdash; a multidisciplinary scholar-artist, digital humanist, and instructor based in New York City. My work brings together Black studies, archival practice, community technology, and expressive computing.</p>
+        <p>I hold a BA in African American Studies from the University of Maryland and have spent years building immersive labs, running programs, editing grants, and creating digital projects at the intersection of humanities scholarship and hands-on making.</p>
+        <div class="pullquote">
+          <p>"Bringing research out &mdash; and bringing communities in."</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="slabel">Now</div>
+        <p>Most recently I served as Textile Librarian at Holly Hunt in New York. Before that I spent years at the University of Maryland building immersive XR labs, coordinating digital humanities programs, and supporting community-based arts and technology work.</p>
+        <p>I'm a McNair Scholar, a Rutgers English Diversity Institute Fellow, and an affiliate faculty member at the AI Interdisciplinary Institute at UMD.</p>
+      </div>
+      <div class="col">
+        <div class="slabel">Expertise</div>
+        <div>
+          <span class="tag">Digital Humanities</span>
+          <span class="tag a">Black Studies</span>
+          <span class="tag">AR / VR / XR</span>
+          <span class="tag c">Archives &amp; E-Lit</span>
+          <span class="tag">Creative Computing</span>
+          <span class="tag a">Afrofuturism</span>
+          <span class="tag c">Grant Writing</span>
+          <span class="tag">Fab &amp; Making</span>
+          <span class="tag a">Carceral Studies</span>
+          <span class="tag">Curation</span>
+          <span class="tag c">NLP &amp; AI</span>
+          <span class="tag">Community Tech</span>
+        </div>
+        <div class="slabel" style="margin-top:20px;">Technical</div>
+        <p style="font-size:.7rem;line-height:2;color:var(--muted);">
+          HTML &middot; CSS &middot; JavaScript &middot; Python 3<br>
+          Figma &middot; Adobe XD &middot; Premiere Pro<br>
+          Lens Studio &middot; Twine &middot; RiTa.js<br>
+          GitHub &middot; Notion &middot; Powertools &middot; Slack<br>
+          Robotics &middot; Carpentry &middot; UI/UX Design
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE -->
+  <div class="feature">
+    <div class="slabel">Philosophy</div>
+    <h2>Building spaces where <em>marginalized stories</em> can be told on their own terms &mdash; in archives, in code, and in community.</h2>
+    <p style="margin-top:10px;">From designing immersive XR labs to curating the first scholarly African diasporic electronic literature collection, my work asks: who gets to tell the story, and what tools do they need to tell it well?</p>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="g2">
+      <div class="col">
+        <div class="slabel">Professional Experience</div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Holly Hunt</span>
+            <span class="entry-date">Oct &ndash; Dec 2025 &middot; New York, NY</span>
+          </div>
+          <div class="entry-role">Textile Librarian (Temp) &mdash; Supervisor: Annie Chatenka</div>
+          <ul class="entry-bullets">
+            <li>Structured inventory, catalog, sourcing, and tagging of fabrics, fiber &amp; decorative arts</li>
+            <li>Primary point of inquiry for product portfolio; represented collections to architectural and design partners</li>
+            <li>Supported showroom team with customer service for ~30 clients/day</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">NarraSpaceXR &middot; Interactive &amp; Narrative Arts Lab, UMD</span>
+            <span class="entry-date">Aug 2024 &ndash; Dec 2025</span>
+          </div>
+          <div class="entry-role">Makerspace Manager &amp; Docent &mdash; Supervisor: Dr. Marisa Parham</div>
+          <ul class="entry-bullets">
+            <li>Designed an immersive reality (AR/VR/XR) lab to support storytelling from marginalized experiences</li>
+            <li>Oversaw lab infrastructure, resource inventory, A/V systems, hardware &amp; software acquisition</li>
+            <li>Edited federal and campus-wide grant proposals awarded $3k&ndash;$300k for arts, tech &amp; public good</li>
+            <li>Instructed low- and high-tech approaches to data &amp; digital media project execution</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Maryland Institute for Technology in the Humanities (MITH)</span>
+            <span class="entry-date">Aug 2023 &ndash; Dec 2025</span>
+          </div>
+          <div class="entry-role">Program Coordinator &mdash; Supervisor: Trevor Mu&ntilde;oz</div>
+          <ul class="entry-bullets">
+            <li>Organized interns&rsquo; public exhibition of rare and archival materials from MITH&rsquo;s vintage computer and video game collection</li>
+            <li>Managed marketing and communications; represented institute at academic conferences</li>
+            <li>Coordinated calendars, grant reporting, and onboarding for funded initiatives</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Research Foundation of CUNY</span>
+            <span class="entry-date">Oct 2022 &ndash; Dec 2023 &middot; Brooklyn, NY</span>
+          </div>
+          <div class="entry-role">Research Assistant &mdash; PI: Dr. Rosamond King</div>
+          <ul class="entry-bullets">
+            <li>Curatorial and web development of the first scholarly African diasporic electronic literature collection</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">UMD Dept. of Residential Life</span>
+            <span class="entry-date">Nov 2019 &ndash; May 2023</span>
+          </div>
+          <div class="entry-role">Residential Assistant</div>
+          <ul class="entry-bullets">
+            <li>Collaborated with team to execute 32 student development programs for 100 residents annually</li>
+            <li>Mediated conflict resolution; responded to personal crises with first responders</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="slabel">Program Development &amp; Leadership</div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">AADHum &middot; UMD</span>
+            <span class="entry-date">Jun 2023 &ndash; Dec 2025</span>
+          </div>
+          <div class="entry-role">Computational Arts &amp; Humanities Associate &mdash; Supervisor: Christin Washington</div>
+          <ul class="entry-bullets">
+            <li>Produced eco-friendly creative computing workshops for a community-based service learning program</li>
+            <li>Hosted free events in digital arts supporting participatory idea-creation in local communities</li>
+            <li>Facilitated coding &amp; literacy exercises for local educators teaching in computational environments (NLP, AI)</li>
+            <li>Curated visual brand and identity in critical approaches to scientific &amp; technical innovation</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Co-Lead, Microgrants Program &middot; AADHum</span>
+            <span class="entry-date">Oct 2023 &ndash; May 2025</span>
+          </div>
+          <div class="entry-role">Managed $5k seed fund supporting student creativity at Black study, art &amp; technology intersections</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Lead Educator, REDU Fellowship &middot; AADHum</span>
+            <span class="entry-date">Aug &ndash; Dec 2024</span>
+          </div>
+          <div class="entry-role">Race + Experimental Design Unit &mdash; translated 7 undergraduate historical research papers into published websites</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Facilitator, Social Media Corps &middot; AADHum</span>
+            <span class="entry-date">Jun &ndash; Aug 2024</span>
+          </div>
+          <div class="entry-role">Strategized with scholar-artists to engage intellectual worlds through social media</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Lead Mentor, Splash Fellows &middot; AADHum</span>
+            <span class="entry-date">Jun 2024 &ndash; May 2025</span>
+          </div>
+          <div class="entry-role">Trained fellows in admin systems, machining, and engineered digital artifacts reflecting expressive life and culture</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Undergraduate Research Assistant &middot; AADHum, UMD</span>
+            <span class="entry-date">Aug 2021 &ndash; May 2023</span>
+          </div>
+          <div class="entry-role">Architected A.Studio &mdash; a fabrication space for students and community to find pathways into tech and humanities design</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">VP of Administrative Affairs &middot; Black Student Union</span>
+            <span class="entry-date">Aug 2020 &ndash; 2021</span>
+          </div>
+          <div class="entry-role">Administered contracts for venues &amp; vendors; balanced organizational budget for campus events</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Middle School Outreach Lead &middot; Minority Scholars Program, MCPS</span>
+            <span class="entry-date">Aug 2017 &ndash; 2019</span>
+          </div>
+          <div class="entry-role">Administered after-school language aided (Spanish) mentoring programs to close opportunity gap</div>
+        </div>
+
+        <div class="entry">
+          <div class="entry-head">
+            <span class="entry-org">Program Assistant &middot; Clever Communities in Action</span>
+            <span class="entry-date">May &ndash; Aug 2021 &middot; Norfolk, VA</span>
+          </div>
+          <div class="entry-role">Promoted literacy through sourcing, data entry and web development for Black youth books</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="slabel">Digital Projects</div>
+    <h2>Making <em>research</em> into something you can touch</h2>
+    <div class="pgrid">
+      <div class="pcard">
+        <h4><a href="https://aadhum.umd.edu/research/project-black-light-black-e-lit" target="_blank" rel="noopener">Black Electronic Literature &#8599;</a></h4>
+        <p>First scholarly African diasporic electronic literature collection &mdash; curatorial and web development with Dr. Rosamond King</p>
+      </div>
+      <div class="pcard">
+        <h4><a href="https://katelinten.github.io/CPTimeReviewed/" target="_blank" rel="noopener">CP Time Reviewed &#8599;</a></h4>
+        <p>Clock interface (HTML, CSS, JS) exploring Blackness and the articulations of space-time</p>
+      </div>
+      <div class="pcard">
+        <h4><a href="https://katelinten.github.io/Closefriendszine/" target="_blank" rel="noopener">Close Friends Zine &#8599;</a></h4>
+        <p>Archival, interactive magazine &mdash; digital zine-making as Black diasporic storytelling</p>
+      </div>
+      <div class="pcard">
+        <h4><a href="https://katelinten.notion.site/Black-techno-science-s-Protoype-28c1fc93dad381c2854ee4072d85f063" target="_blank" rel="noopener">Black Technosciences &#8599;</a></h4>
+        <p>History of computing, media studies &amp; archaeology through a Black diasporic lens</p>
+      </div>
+      <div class="pcard">
+        <h4><a href="https://katelinten.notion.site/Digital-storytelling-Kit-17b1fc93dad38093b5b4f0500546aa88?pvs=73" target="_blank" rel="noopener">Digital Storytelling Kit &#8599;</a></h4>
+        <p>Computational literacy exercise &mdash; a toolkit for digital narrative and data storytelling</p>
+      </div>
+      <div class="pcard">
+        <h4><a href="https://colorful-path-f01.notion.site/SMC24-Design-Journal-Template-17b1fc93dad3806497f2f4fd277e833a?pvs=143" target="_blank" rel="noopener">Design Journal Kit &#8599;</a></h4>
+        <p>Social media branding &mdash; with Dr. Liz Alexander</p>
+      </div>
+      <div class="pcard">
+        <h4>Chatbook Chapbook <span style="font-size:.5rem;color:var(--muted);font-style:normal;">coming soon</span></h4>
+        <p>Poetry manuscripts at the intersection of computational writing and literary form &mdash; interactive AI chatbots</p>
+      </div>
+      <div class="pcard">
+        <h4>Beauticians as Cultural Engineers <span style="font-size:.5rem;color:var(--muted);font-style:normal;">coming soon</span></h4>
+        <p>Essay &mdash; anteaesthetics and media studies centering Black material knowledge and technoscience</p>
+      </div>
+      <div class="pcard">
+        <h4>Science &amp; Engineering through Black Diasporic Speculative Fiction <span style="font-size:.5rem;color:var(--muted);font-style:normal;">coming soon</span></h4>
+        <p>Afrofuturism and speculative fiction as lenses for science and engineering inquiry</p>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <div class="slabel">Collaborations &amp; Consulting</div>
+      <span class="tag a">Witness Unhurried</span>
+      <span class="tag">Christiana &mdash; Sharpness and Duty (Virtual Exhibit w/ Nikki Finney)</span>
+      <span class="tag a">Agua de Coco &mdash; Yereni Butcher</span>
+      <span class="tag c">WOVEN DIASPORA &mdash; Tekoa Sultan-Reisler</span>
+      <span class="tag">Carla J. Thomas McGinnis</span>
+    </div>
+  </section>
+
+  <!-- TEACHING -->
+  <section id="teaching">
+    <div class="g2">
+      <div class="col">
+        <div class="slabel">Teaching Experience</div>
+        <h2>Classroom &amp; <em>Community</em></h2>
+
+        <div class="course">
+          <div class="course-code">Invited Guest Lecture</div>
+          <strong>ENGL759F &mdash; Seminar in Literature and the Other Arts</strong>
+          <div style="font-size:.75rem;color:var(--muted);margin-top:3px;font-style:italic;">&ldquo;Computers Killed the Creative Writing Star&rdquo;</div>
+        </div>
+        <div class="course">
+          <div class="course-code">Digital Humanities Teaching Assistant</div>
+          <strong>HIST 419O / AASP 478G &mdash; Plants &amp; Diaspora: Black and Indigenous Environmental Histories</strong>
+        </div>
+        <div class="course">
+          <div class="course-code">Teaching Assistant</div>
+          <strong>ENGL378W &mdash; Deep Time: Memory, Media, and Ecological Imagination in the Americas</strong>
+        </div>
+        <div class="course">
+          <div class="course-code">Teaching Assistant</div>
+          <strong>ENGL295 &mdash; Introduction to Digital Storytelling and Poetics</strong>
+        </div>
+        <div class="course">
+          <div class="course-code">Teaching Assistant</div>
+          <strong>ENGL378P &mdash; Videogames and the Boundaries of Narrative</strong>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="slabel">Talks &amp; Presentations</div>
+        <h2>Sharing the <em>work</em></h2>
+
+        <div class="entry">
+          <div class="entry-org" style="margin-bottom:4px;">National McNair Conference, UMD &mdash; 2023</div>
+          <p style="font-style:italic;font-size:.8rem;">&ldquo;CP Time: Blackness and the Articulations of Space-Time in African American Literature and Culture&rdquo;</p>
+        </div>
+        <div class="entry">
+          <div class="entry-org" style="margin-bottom:4px;">McNair Summer Research Institute Symposium &mdash; 2021 &amp; 2022</div>
+          <p style="font-size:.78rem;color:var(--muted);">Research on cultural memory, survival strategies, and Black temporality</p>
+        </div>
+        <div class="entry">
+          <div class="entry-org">DH 2024 &mdash; Alliance of Digital Humanities Organizations Annual Conference</div>
+        </div>
+        <div class="entry">
+          <div class="entry-org">Teaching the Arts in the Age of A.I. &mdash; Symposium</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HONORS -->
+  <section id="honors">
+    <div class="g2">
+      <div class="col">
+        <div class="slabel">Honors &amp; Awards</div>
+        <ul class="award-list">
+          <li><span class="award-year">2023</span> Rutgers English Diversity Institute Fellow (REDI)</li>
+          <li><span class="award-year">2022</span> Alford Family Scholarship in Honor of Val Skeeter</li>
+          <li><span class="award-year">2022</span> The John B. and Ida Slaughter Fellowship</li>
+          <li><span class="award-year">2021</span> McNair Scholar &mdash; Ronald E. McNair Post-Baccalaureate Achievement Program</li>
+          <li><span class="award-year">2020&ndash;22</span> Distinguished Dean&rsquo;s List of Outstanding Students</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="slabel">Education &amp; Affiliations</div>
+        <div class="entry">
+          <div class="entry-org">University of Maryland, College of Behavioral and Social Sciences</div>
+          <div class="entry-role" style="margin-top:4px;">B.A. African American Studies &mdash; May 2023, College Park, MD</div>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="course"><strong>McNair Scholar</strong> &mdash; Initiated 2021</div>
+          <div class="course"><strong>Rutgers English Diversity Institute Fellow (REDI)</strong> &mdash; Initiated 2023</div>
+          <div class="course"><strong>Association for Computers and the Humanities (ACH)</strong> &mdash; Member, Initiated 2024</div>
+          <div class="course"><strong>Affiliate Faculty, AI Interdisciplinary Institute (AIM), UMD</strong> &mdash; Initiated 2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="slabel">Get in Touch</div>
+    <div class="g2">
+      <div class="col">
+        <h2>Let&rsquo;s <em>build</em> something</h2>
+        <p>Open to collaborations, consulting, curatorial projects, teaching opportunities, and conversations at the intersection of technology, Black studies, and community practice.</p>
+      </div>
+      <div class="col">
+        <div class="contact-row">
+          <div class="contact-item">
+            <div class="clabel">Email</div>
+            <a href="mailto:Katelinten0@gmail.com">Katelinten0@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <div class="clabel">LinkedIn</div>
+            <a href="https://www.linkedin.com/in/katelinten" target="_blank" rel="noopener">linkedin.com/in/katelinten</a>
+          </div>
+        </div>
+        <div class="contact-row" style="padding-top:0">
+          <div class="contact-item">
+            <div class="clabel">Location</div>
+            <span>New York, NY</span>
+          </div>
+          <div class="contact-item">
+            <div class="clabel">Portfolio</div>
+            <a href="portfolio-wheel.html">Interactive Wheel &#9711;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Katelin Ten &mdash; CV</span>
+  <span>Digital Humanities &middot; Arts &amp; Technology</span>
+  <span><a href="portfolio-wheel.html">&#9711; Back to Portfolio Wheel</a></span>
+</footer>
+
+<script>
+  // NAV hamburger
+  const nt = document.getElementById('nav-toggle');
+  const nd = document.getElementById('nav-drawer');
+  nt.addEventListener('click', () => {
+    const o = nd.classList.toggle('open');
+    nt.setAttribute('aria-expanded', String(o));
+    nt.textContent = o ? '\u2715 Close' : '\u2630 Menu';
+  });
+  nd.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    nd.classList.remove('open');
+    nt.setAttribute('aria-expanded', 'false');
+    nt.textContent = '\u2630 Menu';
+  }));
+
+  // Active nav on scroll
+  const secs = ['about','experience','projects','teaching','honors','contact'];
+  function ua() {
+    secs.forEach(id => {
+      const el = document.getElementById(id); if (!el) return;
+      const lk = document.querySelector('#nav-links a[href="#' + id + '"]'); if (!lk) return;
+      const t = el.getBoundingClientRect().top;
+      lk.classList.toggle('active', t <= 80 && t > -300);
+    });
+  }
+  window.addEventListener('scroll', ua, { passive: true });
+</script>
+</body>
+</html>
