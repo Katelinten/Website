@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katelin Ten — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lav-dark: #7d6deb;
+    --lav-light: #f2f1f9;
+    --shade: #e1dff6;
+    --orange: #f8901b;
+    --pink: #fa89b3;
+    --green: #51c695;
+    --blue: #57b1f1;
+    --blood: #e9734b;
+    --ink: #2c2740;
+    --ink-soft: #5c5578;
+    --paper: #fbfaff;
+  }
+  * { box-sizing: border-box; }
+
+  html, body {
+    background-color: var(--lav-light);
+    margin: 0;
+    min-height: 100%;
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--ink);
+  }
+  h1,h2,h3 { font-family:'Fraunces', serif; margin:0; }
+  .mono { font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------------- topbar ---------------- */
+  .topbar{
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display:flex;
+    align-items:center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: rgba(251,250,255,0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px dashed var(--lav-dark);
+    overflow-x: auto;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    padding-right: 10px;
+    border-right: 1px solid var(--shade);
+    flex-shrink: 0;
+  }
+  .brand span{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .nav-pills{
+    display:flex;
+    gap: 8px;
+    flex: 1;
+    overflow-x: auto;
+  }
+  .pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 7px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--pill-color, var(--lav-dark));
+    color: var(--pill-color, var(--lav-dark));
+    background: transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease;
+    flex-shrink: 0;
+  }
+  .pill:hover, .pill.active{
+    background: var(--pill-color, var(--lav-dark));
+    color: #fff;
+  }
+
+  /* ---------------- media matrix (recolored) ---------------- */
+  .matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    perspective: 1000px;
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--shade);
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    will-change: transform;
+    cursor: zoom-in;
+  }
+
+  .tile:hover {
+    z-index: 5;
+    box-shadow: 0 20px 40px rgba(125,109,235,0.35);
+  }
+
+  .tile img,
+  .tile video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.15);
+    transition: opacity 0.4s ease, filter 0.15s ease-out;
+    filter: brightness(0.94) saturate(1.02);
+  }
+
+  .tile:hover img,
+  .tile:hover video {
+    filter: brightness(1.04) saturate(1.12);
+  }
+
+  .tile img.lazyload { opacity: 0; }
+  .tile img.lazyload.loaded { opacity: 1; }
+
+  .tile .glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.35), transparent 60%);
+  }
+  .tile:hover .glare { opacity: 1; }
+
+  /* ---------------- lightbox ---------------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(44,39,64,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 100;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+
+  .lightbox-content {
+    max-width: 90vw;
+    max-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.94);
+    transition: transform 0.25s ease;
+  }
+  .lightbox.open .lightbox-content { transform: scale(1); }
+
+  .lightbox-content img,
+  .lightbox-content video {
+    max-width: 90vw;
+    max-height: 88vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 22px;
+    right: 28px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.12);
+    color: var(--paper);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+
+  /* ---------------- hero strip above grid ---------------- */
+  .hero-strip{
+    padding: 34px 16px 6px;
+    max-width: 900px;
+  }
+  .hero-strip .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lav-dark);
+    margin-bottom: 10px;
+  }
+  .hero-strip h1{
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .hero-strip .tagline{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--ink-soft);
+    margin: 12px 0 20px;
+    max-width: 560px;
+  }
+
+  /* ---------------- CV slide panel ---------------- */
+  .scrim{
+    position: fixed;
+    inset: 0;
+    background: rgba(44,39,64,0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 60;
+  }
+  .scrim.open{ opacity: 1; pointer-events: auto; }
+
+  .panel{
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(440px, 92vw);
+    background: var(--paper);
+    box-shadow: -18px 0 40px rgba(44,39,64,0.25);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    z-index: 70;
+    overflow-y: auto;
+    padding: 20px 22px 60px;
+  }
+  .panel.open{ transform: translateX(0); }
+
+  .panel-close{
+    position: sticky;
+    top: 0;
+    float: right;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--shade);
+    background: var(--paper);
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .panel h2.panel-title{
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  .panel-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+
+  .cv-section{ padding-top: 26px; scroll-margin-top: 10px; }
+  .cv-section:first-of-type{ padding-top: 6px; }
+  .cv-section .tab{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+  .cv-section h3.head{ font-size: 1.05rem; margin-bottom: 10px; }
+
+  .item{
+    border-left: 3px solid var(--item-accent, var(--lav-dark));
+    padding: 4px 0 10px 12px;
+    margin-bottom: 10px;
+  }
+  .item .role{ font-weight: 600; font-size: 0.9rem; }
+  .item .org{ font-size: 0.8rem; color: var(--ink-soft); }
+  .item .date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+  }
+  .item p, .item ul{ font-size: 0.82rem; margin: 4px 0 0; padding-left: 16px; }
+  .item li{ margin-bottom: 3px; }
+
+  .chiplist{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chiplist span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    background: var(--shade);
+    padding: 4px 9px;
+    border-radius: 14px;
+  }
+
+  .stitch-mini{
+    border:0; height:1px;
+    background-image: linear-gradient(to right, var(--shade) 50%, transparent 0%);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    margin: 20px 0 0;
+  }
+
+  footer.credit{
+    text-align:center;
+    padding: 30px 16px 60px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+
+  a:focus-visible, .pill:focus-visible, .panel-close:focus-visible, .lightbox-close:focus-visible{
+    outline: 2px solid var(--lav-dark);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .panel, .scrim, .tile, .lightbox, .lightbox-content { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">Katelin Ten<span>Scholar-artist</span></div>
+  <nav class="nav-pills" aria-label="CV sections">
+    <button class="pill" data-target="experience" style="--pill-color: var(--lav-dark);">Experience</button>
+    <button class="pill" data-target="leadership" style="--pill-color: var(--blue);">Leadership</button>
+    <button class="pill" data-target="projects" style="--pill-color: var(--green);">Projects</button>
+    <button class="pill" data-target="collaborations" style="--pill-color: var(--pink);">Collabs</button>
+    <button class="pill" data-target="talks" style="--pill-color: var(--orange);">Talks</button>
+    <button class="pill" data-target="teaching" style="--pill-color: var(--blood);">Teaching</button>
+    <button class="pill" data-target="honors" style="--pill-color: var(--lav-dark);">Honors</button>
+    <button class="pill" data-target="film" style="--pill-color: var(--blue);">Film &amp; Comedy</button>
+    <button class="pill" data-target="skills" style="--pill-color: var(--green);">Skills</button>
+    <button class="pill" data-target="education" style="--pill-color: var(--pink);">Education</button>
+    <button class="pill" data-target="references" style="--pill-color: var(--orange);">References</button>
+  </nav>
+</header>
+
+<div class="hero-strip">
+  <div class="eyebrow">Curriculum Vitae — 2026</div>
+  <h1>Katelin Ten</h1>
+  <p class="tagline">A scholar-artist stitching together Black study, computation, and craft. The archive below — tap a thread above for the full CV.</p>
+</div>
+
+<div class="matrix" id="matrix"></div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+  <div class="lightbox-content" id="lightboxContent"></div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" aria-label="Full CV">
+  <button class="panel-close" id="panelClose" aria-label="Close CV panel">&times;</button>
+  <h2 class="panel-title">Full CV</h2>
+  <div class="panel-sub mono">College Park &amp; DC/MD · katelinten0@gmail.com</div>
+
+  <section class="cv-section" id="experience">
+    <span class="tab" style="background:var(--lav-dark);">Thread 01</span>
+    <h3 class="head">Research &amp; Professional Experience</h3>
+
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Textile Librarian Temp — Holly Hunt</div>
+      <div class="org">New York, NY · Supervisor: Annie Chatenka</div>
+      <div class="date">Oct – Dec 2025</div>
+      <ul>
+        <li>Structured inventory, catalog, sourcing &amp; tagging of fabrics, fiber &amp; decorative arts.</li>
+        <li>Primary point of inquiry for the product portfolio; represented collections to design partners.</li>
+      </ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Makerspace Manager &amp; Docent — NarraSpaceXR, UMD</div>
+      <div class="org">Supervisor: Dr. Marisa Parham</div>
+      <div class="date">Aug 2024 – Dec 2025</div>
+      <ul>
+        <li>Designed an immersive AR/VR/XR lab supporting storytelling from marginalized experiences.</li>
+        <li>Edited grant proposals awarded $3K–$300K to advance arts, tech &amp; public good.</li>
+      </ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Program Coordinator — MITH</div>
+      <div class="org">Supervisor: Trevor Muñoz</div>
+      <div class="date">Aug 2023 – Dec 2025</div>
+      <ul>
+        <li>Organized interns' public exhibition of MITH's vintage computer &amp; video game collection.</li>
+        <li>Managed marketing, onboarding, calendars, and grant reporting for funded initiatives.</li>
+      </ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Computational Arts &amp; Humanities Associate — AADHum</div>
+      <div class="org">Supervisor: Christin Washington</div>
+      <div class="date">Jun 2023 – Dec 2025</div>
+      <ul>
+        <li>Produced eco-friendly creative-computing workshops with public libraries.</li>
+        <li>Facilitated coding &amp; literacy exercises for local educators (NLP, AI).</li>
+      </ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Undergraduate Research Assistant, Digital Humanities &amp; Digital Studies</div>
+      <div class="date">Aug 2021 – May 2023</div>
+      <ul><li>Architected A.Studio, a fabrication space for students &amp; community members.</li></ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Research Assistant — Research Foundation of CUNY</div>
+      <div class="org">Brooklyn, NY · Supervisor: Dr. Rosamond King</div>
+      <div class="date">Oct 2022 – Dec 2023</div>
+      <ul><li>Curated &amp; developed the first scholarly African diasporic electronic literature collection.</li></ul>
+    </div>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <div class="role">Residential Assistant — UMD Dept. of Residential Life</div>
+      <div class="org">Supervisors: Bria Jackson, Nikki Newman</div>
+      <div class="date">Nov 2019 – May 2023</div>
+      <ul><li>Ran 32 development programs annually; mediated conflict and crisis response.</li></ul>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="leadership">
+    <span class="tab" style="background:var(--blue);">Thread 02</span>
+    <h3 class="head">Leadership &amp; Program Development</h3>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Co-Lead, Microgrants Program — AADHum</div><div class="date">Oct 2023 – May 2025</div><p>Managed $5K in seed funding for student creativity across Black study, art &amp; technology.</p></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Lead Educator, REDU Fellowship — AADHum</div><div class="date">Aug – Dec 2024</div><p>Translated 7 undergraduate research papers into published websites.</p></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Facilitator, Social Media Corps — AADHum</div><div class="date">Jun – Aug 2024</div></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Lead Mentor, Splash Fellows — AADHum</div><div class="date">Jun 2024 – May 2025</div><p>Trained fellows in administrative systems &amp; machining.</p></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">VP of Administrative Affairs — Black Student Union</div><div class="date">Aug 2020 – 2021</div></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Program Assistant — Clever Communities in Action</div><div class="org">Norfolk, VA</div><div class="date">May – Aug 2021</div></div>
+    <div class="item" style="--item-accent: var(--blue);"><div class="role">Middle School Outreach Lead, MSP — MCPS</div><div class="date">Aug 2017 – 2019</div></div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="projects">
+    <span class="tab" style="background:var(--green);">Thread 03</span>
+    <h3 class="head">Digital Projects &amp; Resource Guide</h3>
+    <div class="chiplist">
+      <span>Project Black Light: Black E. Lit</span>
+      <span>CP Time Reviewed — Clock Interface</span>
+      <span>Digital Storytelling Kit</span>
+      <span>Design Journal Kit</span>
+      <span>Grad School Application Portal Kit</span>
+      <span>Technosciences Multi-Modal Curricula</span>
+      <span>Hair Braiding Is Technology</span>
+      <span>Smithsonian Curator Guide</span>
+      <span>Chatbook Chapbook</span>
+      <span>Post-Industrial Revolution of Black Inventors &amp; HBCU Tech History</span>
+      <span>Black Diasporic Speculative Fiction &amp; Afrofuturism in STEM</span>
+      <span>Archival Literacy — Black Book Reviewed: Toni Morrison</span>
+      <span>CPU, Data, and the Middle Passage</span>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="collaborations">
+    <span class="tab" style="background:var(--pink);">Thread 04</span>
+    <h3 class="head">Collaborations &amp; Consulting</h3>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Witness Unhurried</div><div class="org">with Seren Sensei · 2023</div><p>Website illustration on play as healing &amp; collective witness.</p></div>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Sharpness and Duty</div><div class="org">with Christiana McClain · 2023</div><p>Virtual exhibit &amp; reading featuring Nikki Finney.</p></div>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Stories of Sudan</div><div class="org">with Basmah Elradi</div><p>Film on Sudanese narratives of war &amp; displacement.</p></div>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Agua de Coco</div><div class="org">with Yereni Butcher · 2024</div><p>Internet art on coconut in Panamanian Afro-Antillean culture.</p></div>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Woven Diaspora</div><div class="org">with Tekoa Sultan-Reisler · 2024</div><p>Interactive site on cotton's botanical legacy in Africa.</p></div>
+    <div class="item" style="--item-accent: var(--pink);"><div class="role">Untitled ArcGIS Project</div><div class="org">with Carla J. Thomas McGinnis · 2024</div><p>Taxonomy of morning glory &amp; urban garden history.</p></div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="talks">
+    <span class="tab" style="background:var(--orange);">Thread 05</span>
+    <h3 class="head">Talks &amp; Presentations</h3>
+    <div class="item" style="--item-accent: var(--orange);"><div class="role">Guest Lecturer — Black Digitalities</div><div class="org">ENGL759F: Computers Killed the Creative Writing Star</div></div>
+    <div class="item" style="--item-accent: var(--orange);"><div class="role">DH 2024 — ADHO Annual Conference</div><p>"CP Time: Blackness and the Articulations of Space-Time"</p></div>
+    <div class="item" style="--item-accent: var(--orange);"><div class="role">National Undergraduate McNair Conference (2023)</div><p>"Imagining the Black Americas"</p></div>
+    <div class="item" style="--item-accent: var(--orange);"><div class="role">McNair Summer Research Institute Symposium (2021–2022)</div></div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="teaching">
+    <span class="tab" style="background:var(--blood);">Thread 06</span>
+    <h3 class="head">Teaching Experience</h3>
+    <div class="item" style="--item-accent: var(--blood);">
+      <div class="role">Digital Humanities Teaching Assistant</div>
+      <ul>
+        <li>HIST 419O / AASP 478G — Plants &amp; Diaspora</li>
+        <li>ENGL378W — Deep Time: Memory, Media &amp; Ecological Imagination</li>
+        <li>ENGL295 — Intro to Digital Storytelling &amp; Poetics</li>
+        <li>ENGL378P — Videogames &amp; the Boundaries of Narrative</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="honors">
+    <span class="tab" style="background:var(--lav-dark);">Thread 07</span>
+    <h3 class="head">Honors &amp; Awards</h3>
+    <div class="item" style="--item-accent: var(--lav-dark);">
+      <ul>
+        <li>Rutgers English Diversity Institute Fellow (2023) — $900</li>
+        <li>Alford Family Scholarship (2022) — $2,000</li>
+        <li>OMSE Academic Excellence Award (2022)</li>
+        <li>John B. &amp; Ida Slaughter Fellowship (2022) — $2,000</li>
+        <li>Dr. Rhonda M. Williams Undergraduate Scholarship (2021)</li>
+        <li>McNair Scholar (2021–2023) — $4,000</li>
+        <li>Distinguished Dean's List (2020–2022)</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="film">
+    <span class="tab" style="background:var(--blue);">Thread 08</span>
+    <h3 class="head">Film, Media &amp; Comedy</h3>
+    <div class="item" style="--item-accent: var(--blue);">
+      <div class="role">Student Projects</div>
+      <ul>
+        <li>Double or Nothing — Love &amp; Basketball remake (2023)</li>
+        <li>Glitch — Short film (2023), writer/director/producer</li>
+      </ul>
+    </div>
+    <div class="item" style="--item-accent: var(--blue);">
+      <div class="role">Paid Comedy Shows</div>
+      <ul>
+        <li>Liberation &amp; Laughs — Mother Tongue Productions, DC (Jun 2025)</li>
+        <li>Comedy in the Basement — Roadside Grill, VA (Jun 2025)</li>
+        <li>Fearless One &amp; Friends — Cheers Comedy, DC (Jul 2025)</li>
+        <li>Stand-Up Comedy Night — Highline, VA (Aug 2025)</li>
+        <li>New Talent Showcase — Cheers Comedy, DC (Aug 2025)</li>
+        <li>"Thank Me Later" — Lost Origins Art Gallery, DC (Aug 2025)</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="skills">
+    <span class="tab" style="background:var(--green);">Thread 09</span>
+    <h3 class="head">Technical Skills &amp; Languages</h3>
+    <div class="chiplist">
+      <span>HTML/CSS</span><span>JavaScript</span><span>Python 3</span><span>UI/UX Design</span>
+      <span>GitHub</span><span>Adobe XD</span><span>Figma</span><span>Slack</span><span>Notion</span>
+      <span>Premiere Pro</span><span>Powertools</span><span>Lens Studio</span><span>RiTa.js</span>
+      <span>Twine</span><span>Robotics</span><span>Carpentry</span>
+    </div>
+    <p style="font-size:0.82rem; margin-top:12px;">English (native) · Spanish (advanced) · Portuguese (advanced)</p>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="education">
+    <span class="tab" style="background:var(--pink);">Thread 10</span>
+    <h3 class="head">Education &amp; Affiliations</h3>
+    <div class="item" style="--item-accent: var(--pink);">
+      <div class="role">B.A., African American Studies — University of Maryland</div>
+      <div class="date">May 2023</div>
+    </div>
+    <div class="item" style="--item-accent: var(--pink);">
+      <ul>
+        <li>McNair Scholar (2021)</li>
+        <li>Rutgers English Diversity Institute Fellow (2023)</li>
+        <li>Member, Association for Computers and the Humanities (2024)</li>
+        <li>Affiliate Faculty, AI Interdisciplinary Institute, UMD (2025)</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="stitch-mini">
+
+  <section class="cv-section" id="references">
+    <span class="tab" style="background:var(--orange);">Thread 11</span>
+    <h3 class="head">References</h3>
+    <div class="item" style="--item-accent: var(--orange);">
+      <div class="role">Dr. Marisa Parham — Supervisor</div>
+      <div class="org">Director, AADHum &amp; NarraSpaceXR; Associate Director, MITH · UMD</div>
+      <p class="mono" style="font-size:0.7rem;">Contact available upon request</p>
+    </div>
+    <div class="item" style="--item-accent: var(--orange);">
+      <div class="role">Trevor Muñoz</div>
+      <div class="org">Director, MITH · UMD</div>
+      <p class="mono" style="font-size:0.7rem;">Contact available upon request</p>
+    </div>
+    <div class="item" style="--item-accent: var(--orange);">
+      <div class="role">Christin Washington</div>
+      <div class="org">Assistant Director, Academic &amp; Community Relationships, AADHum &amp; MITH · UMD</div>
+      <p class="mono" style="font-size:0.7rem;">Contact available upon request</p>
+    </div>
+    <div class="item" style="--item-accent: var(--orange);">
+      <div class="role">Nicole Norat — Holly Hunt reference</div>
+      <div class="org">Randstad Staffing Agency</div>
+      <p class="mono" style="font-size:0.7rem;">Contact available upon request</p>
+    </div>
+  </section>
+</aside>
+
+<footer class="credit mono">Woven in lavender · Katelin Ten © 2026</footer>
+
+<script>
+  const allItems = [
+    "https://ik.imagekit.io/ypmtieelc/IMG_1246.heic?updatedAt=1784750351592",
+    "https://ik.imagekit.io/ypmtieelc/5F1F70B9-077D-46B0-ABB8-D0D472423C0B%202.JPG?updatedAt=1784750352330",
+    "https://ik.imagekit.io/ypmtieelc/IMG_6807.HEIC?updatedAt=1784750354149",
+    "https://ik.imagekit.io/ypmtieelc/FEBC94C2-00A9-4CB1-9CC3-66C7C28DE6E6.JPG?updatedAt=1784750356075",
+    "https://ik.imagekit.io/ypmtieelc/AAF7C698-5D00-4810-B410-4C6312B5CDB7.JPG?updatedAt=1784750358619",
+    "https://ik.imagekit.io/ypmtieelc/IMG_3949.HEIC?updatedAt=1784750372865",
+    "https://ik.imagekit.io/ypmtieelc/IMG_3945.HEIC?updatedAt=1784750368367",
+    "https://ik.imagekit.io/ypmtieelc/mcnairprez.jpg?updatedAt=1784750373374",
+    "https://ik.imagekit.io/ypmtieelc/C5F38D23-952C-4BE5-90FF-FA4EA7D3FCA4.JPG",
+    "https://ik.imagekit.io/ypmtieelc/IMG_8741.MOV/ik-video.mp4?updatedAt=1784750748808",
+    "https://ik.imagekit.io/ypmtieelc/IMG_4050.MOV/ik-video.mp4?updatedAt=1784750559290",
+    "https://ik.imagekit.io/ypmtieelc/IMG_1061.HEIC?updatedAt=1784750394906",
+    "https://ik.imagekit.io/ypmtieelc/IMG_0778.HEIC?updatedAt=1784750394821",
+    "https://ik.imagekit.io/ypmtieelc/IMG_1060.HEIC?updatedAt=1784750393352",
+    "https://ik.imagekit.io/ypmtieelc/IMG_7819.HEIC?updatedAt=1784750391121",
+    "https://ik.imagekit.io/ypmtieelc/IMG_8740.HEIC?updatedAt=1784750386688",
+    "https://ik.imagekit.io/ypmtieelc/IMG_6175.HEIC?updatedAt=1784750387295",
+    "https://ik.imagekit.io/ypmtieelc/IMG_8067.HEIC?updatedAt=1784750381575",
+    "https://ik.imagekit.io/ypmtieelc/IMG_7520.HEIC?updatedAt=1784750381367",
+    "https://ik.imagekit.io/ypmtieelc/IMG_0353.HEIC?updatedAt=1784750376683",
+    "https://ik.imagekit.io/ypmtieelc/IMG_0356.HEIC?updatedAt=1784750361237",
+    "https://ik.imagekit.io/ypmtieelc/IMG_1067.HEIC?updatedAt=1784750398175",
+    "https://ik.imagekit.io/ypmtieelc/IMG_9057.JPG?updatedAt=1784750392058",
+    "https://ik.imagekit.io/ypmtieelc/IMG_7870.MOV/ik-video.mp4?updatedAt=1784750788348",
+    "https://ik.imagekit.io/ypmtieelc/IMG_9074.HEIC?updatedAt=1784750386069",
+    "https://ik.imagekit.io/ypmtieelc/IMG_9070.HEIC?updatedAt=1784750374838",
+    "https://ik.imagekit.io/ypmtieelc/IMG_6556.HEIC?updatedAt=1784750375845",
+    "https://ik.imagekit.io/ypmtieelc/C5F38D23-952C-4BE5-90FF-FA4EA7D3FCA4%202.JPG",
+    "https://ik.imagekit.io/ypmtieelc/2c83a4c2118642308f61949ffeb4ae83%202.MOV?updatedAt=1784750771038",
+    "https://ik.imagekit.io/ypmtieelc/IMG_5542%202.MOV/ik-video.mp4?updatedAt=1784750499558",
+    "https://ik.imagekit.io/ypmtieelc/IMG_5614.HEIC?updatedAt=1784750398207",
+    "https://ik.imagekit.io/ypmtieelc/IMG_9700.HEIC?updatedAt=1784750395696",
+    "https://ik.imagekit.io/ypmtieelc/IMG_7729.HEIC?updatedAt=1784750389383",
+    "https://ik.imagekit.io/ypmtieelc/IMG_1682.HEIC?updatedAt=1784750376492",
+    "https://ik.imagekit.io/ypmtieelc/B9E64F4B-26C9-4770-A31F-A329AAD7F9AC.JPG?updatedAt=1784750375953",
+    "https://ik.imagekit.io/ypmtieelc/DF1AB503-B63C-4E5F-BA03-7A27EEDF9E95.JPG?updatedAt=1784750366318",
+    "https://ik.imagekit.io/ypmtieelc/69210786-897A-4220-B367-E0F5821005D4.JPG?updatedAt=1784750358640",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.48.12%E2%80%AFPM.mov/ik-video.mp4?updatedAt=1784750776895",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.34.53%E2%80%AFPM.mov/ik-video.mp4?updatedAt=1784750775216",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.28.23%E2%80%AFPM.mov/ik-video.mp4?updatedAt=1784750757913",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.51.07%E2%80%AFPM%202.MOV/ik-video.mp4?updatedAt=1784750733724",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-06-30%20at%2010.41.55%E2%80%AFAM.mov/ik-video.mp4?updatedAt=1784750670548",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.57.35%E2%80%AFPM.MOV/ik-video.mp4?updatedAt=1784750603543",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%201.49.41%E2%80%AFPM.mov/ik-video.mp4?updatedAt=1784750568122",
+    "https://ik.imagekit.io/ypmtieelc/IMG_5035.PNG?updatedAt=1784750496301",
+    "https://ik.imagekit.io/ypmtieelc/IMG_4169.MOV/ik-video.mp4?updatedAt=1784750452147",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%202.02.55%E2%80%AFPM.MOV/ik-video.mp4?updatedAt=1784750451596",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-06-30%20at%2010.47.05%E2%80%AFAM.MOV/ik-video.mp4?updatedAt=1784750476510",
+    "https://ik.imagekit.io/ypmtieelc/technosciences%20image.png?updatedAt=1784750392343",
+    "https://ik.imagekit.io/ypmtieelc/Screen%20Recording%202026-07-15%20at%202.02.55%E2%80%AFPM%202.MOV/ik-video.mp4?updatedAt=1784750388366",
+    "https://ik.imagekit.io/ypmtieelc/IMG_4170.HEIC?updatedAt=1784750387882",
+    "https://ik.imagekit.io/ypmtieelc/IMG_6304.HEIC?updatedAt=1784750375509",
+    "https://ik.imagekit.io/ypmtieelc/IMG_7139.HEIC?updatedAt=1784750370741"
+  ];
+
+  const items = [...new Set(allItems)];
+
+  function isVideo(url) {
+    return /\/ik-video\.mp4/i.test(url) || /\.(mov|mp4)(\?|$)/i.test(url);
+  }
+
+  const matrix = document.getElementById('matrix');
+
+  items.forEach(url => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+
+    if (isVideo(url)) {
+      const video = document.createElement('video');
+      video.src = url;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      tile.appendChild(video);
+      tile.addEventListener('mouseenter', () => video.play().catch(() => {}));
+      tile.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+    } else {
+      const img = document.createElement('img');
+      img.dataset.src = url;
+      img.loading = 'lazy';
+      img.className = 'lazyload';
+      img.alt = '';
+      tile.appendChild(img);
+    }
+
+    const glare = document.createElement('div');
+    glare.className = 'glare';
+    tile.appendChild(glare);
+
+    tile.addEventListener('click', () => openLightbox(url, isVideo(url)));
+
+    matrix.appendChild(tile);
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxContent = document.getElementById('lightboxContent');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function openLightbox(url, video) {
+    lightboxContent.innerHTML = '';
+
+    if (video) {
+      const v = document.createElement('video');
+      v.src = url;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      lightboxContent.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = '';
+      lightboxContent.appendChild(img);
+    }
+
+    lightbox.classList.add('open');
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    const media = lightboxContent.querySelector('video');
+    if (media) media.pause();
+    lightboxContent.innerHTML = '';
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeLightbox(); closePanel(); }
+  });
+
+  // Mouse-reactive tilt per tile
+  const tiles = document.querySelectorAll('.tile');
+  const MAX_TILT = 10;
+
+  tiles.forEach(tile => {
+    tile.addEventListener('mousemove', e => {
+      const rect = tile.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const px = x / rect.width;
+      const py = y / rect.height;
+
+      const rotateY = (px - 0.5) * MAX_TILT * 2;
+      const rotateX = (0.5 - py) * MAX_TILT * 2;
+
+      tile.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.08)`;
+      tile.style.setProperty('--gx', `${px * 100}%`);
+      tile.style.setProperty('--gy', `${py * 100}%`);
+    });
+
+    tile.addEventListener('mouseleave', () => {
+      tile.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if ('loading' in HTMLImageElement.prototype) {
+      const images = document.querySelectorAll('img[loading="lazy"]');
+      images.forEach(img => {
+        img.src = img.dataset.src;
+        img.onload = () => img.classList.add('loaded');
+        img.onerror = () => img.classList.add('loaded');
+      });
+    } else {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.1.8/lazysizes.min.js';
+      document.body.appendChild(script);
+    }
+  });
+
+  // ---------------- CV panel logic ----------------
+  const panel = document.getElementById('panel');
+  const scrim = document.getElementById('scrim');
+  const panelClose = document.getElementById('panelClose');
+  const pills = document.querySelectorAll('.pill');
+
+  function openPanel(targetId) {
+    panel.classList.add('open');
+    scrim.classList.add('open');
+    pills.forEach(p => p.classList.toggle('active', p.dataset.target === targetId));
+    if (targetId) {
+      const el = document.getElementById(targetId);
+      if (el) el.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    scrim.classList.remove('open');
+    pills.forEach(p => p.classList.remove('active'));
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      if (panel.classList.contains('open') && pill.classList.contains('active')) {
+        closePanel();
+      } else {
+        openPanel(pill.dataset.target);
+      }
+    });
+  });
+
+  scrim.addEventListener('click', closePanel);
+  panelClose.addEventListener('click', closePanel);
+</script>
+
+</body>
+</html>
